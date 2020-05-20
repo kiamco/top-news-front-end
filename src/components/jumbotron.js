@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { FormControl,Input, InputLabel, FormHelperText, Button } from '@material-ui/core';
-
+import Axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
     container:{
@@ -39,13 +39,54 @@ const useStyles = makeStyles(theme => ({
 
 const Jumbotron = () => {
     const classes = useStyles();
+    const [input, setInput] = useState({
+        email:''
+    });
+    const changeHandler = (e) => {
+        e.preventDefault();
+        e.persist();
+        setInput(prev => {
+            return {...prev,[e.target.name]:e.target.value}
+        });
+        console.log(input);
+    }
+
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+        const db = 'http://localhost:8000/subscribe'
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        Axios.post(db,input,config)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+        console.log(e.target.value)
+
+    }
     return(
         <Box className={classes.container}>
-            <Typography variant='h3' className={classes.header  }>Subscribe to get the latest news</Typography>
-            <FormControl size="medium" required='true' className={classes.form}>
+            <Typography variant='h3' className={classes.header}>Subscribe to get the latest news</Typography>
+            <FormControl 
+            size="medium" 
+            required={true} 
+            className={classes.form}
+            >
                 <Box className={classes.inputContainer}>
                     <InputLabel className={classes.inputEl} htmlFor="my-input">Email address</InputLabel>
-                    <Input className={classes.inputEl} id="my-input" aria-describedby="my-helper-text" />
+                    <Input 
+                    className={classes.inputEl} 
+                    name='email' 
+                    id="my-input" 
+                    aria-describedby="my-helper-text"
+                    onChange={changeHandler} />
                     <FormHelperText className={classes.inputEl} id="my-helper-text">We'll never share your email.</FormHelperText>
                 </Box>
                 <Button 
@@ -53,7 +94,8 @@ const Jumbotron = () => {
                 variant="contained" 
                 className={classes.sumbmitButton}
                 color="primary"
-                type="submit">
+                type="submit"
+                onClick={(e) => onSubmitHandler(e)}>
                     Subscribe
                     </Button>
             </FormControl>

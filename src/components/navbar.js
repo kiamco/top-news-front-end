@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 const Navbar = () => {
     const classes = useStyles();
     return(
-        <AppBar position='static' color='primary'>
+        <AppBar position='static'>
             <Toolbar className={classes.tool}>
                 <Typography variant='h6'>
                     Newnews
