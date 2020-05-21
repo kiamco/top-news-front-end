@@ -1,38 +1,52 @@
 import React,{useState} from 'react';
-import Box from '@material-ui/core/Box';
+import {Box, Container} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { FormControl,Input, InputLabel, FormHelperText, Button } from '@material-ui/core';
+import Animation from '../assets/drawkit-grape-animation-6-NO-LOOP.json';
 import Axios from 'axios';
+import Lottie from 'lottie-react-web';
+
 
 const useStyles = makeStyles(theme => ({
     container:{
-        height:"425px",
+        maxHeight:"100%",
         display:"flex",
-        flexDirection:"column",
-        alignItems:"center",
-        justifyContent:"center",
+        flexDirection:"row",
     },
     header:{
         textAlign:"center"
     },
     form:{
-        minWidth: "650px",
         display:'flex',
         flexFlow:"row wrap",
         alignItems:"center",
-        justifyContent:"space-between",
+        justifyContent:"space-around",
                 margin: "20px 0 0 0"
 
     },
     inputContainer:{
-        minWidth: "500px",
+        // minWidth: "80%",
     },
     inputEl:{
         minWidth:"inherit"
     },
     sumbmitButton:{
         margin:"0 0 0 20px"
+    },
+    left:{
+        minWidth: "50%",
+        background:"whitesmoke",
+        minHeight: "95vh"
+    },
+    right:{
+        minWidth: "50%",
+        background: "white",
+        minHeight: "95vh",
+        display:"flex",
+        alignItems: "center",
+        flexDirection: "column",
+        justifyContent:"center"
     }
 }));
 
@@ -67,13 +81,20 @@ const Jumbotron = () => {
         .catch(err => {
             console.log(err)
         })
+    };
 
-        console.log(e.target.value)
-
-    }
     return(
         <Box className={classes.container}>
-            <Typography variant='h3' className={classes.header}>Subscribe to get the latest news</Typography>
+            <Container className={classes.left}>
+                <Lottie
+                    options={{
+                        animationData: Animation,
+                        loop:false
+                    }}
+                />
+            </Container>
+            <Container className={classes.right}>
+                <Typography variant='h4' className={classes.header}>Subscribe to get the latest news</Typography>
             <FormControl 
             size="medium" 
             required={true} 
@@ -99,6 +120,9 @@ const Jumbotron = () => {
                     Subscribe
                     </Button>
             </FormControl>
+            </Container>
+
+            
 
         </Box>
     )
