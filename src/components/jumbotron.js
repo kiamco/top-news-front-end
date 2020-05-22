@@ -3,13 +3,11 @@ import { Box, Container, TextField, FormControlLabel, Portal } from '@material-u
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { FormControl, Input, InputLabel, FormHelperText, Button } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Animation from '../assets/drawkit-grape-animation-6-NO-LOOP.json';
 import Axios from 'axios';
 import Lottie from 'lottie-react-web';
 import Checkbox from '@material-ui/core/Checkbox';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -71,7 +69,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-// business entertainment general health science sports technology
 const Jumbotron = () => {
     const classes = useStyles();
     const [categories, setCategories] = useState({
@@ -88,11 +85,12 @@ const Jumbotron = () => {
     });
 
     const postParser = () => {
-        const categoryArr = Object.keys(categories).filter(category => {
-            if(categories[category] === true){
-                return category
-            };
-        });
+        const categoryArr = Object.keys(categories)
+            .filter(category => {
+                if (categories[category] === true) {
+                    return category
+                };
+            });
 
         return {
             email: input,
@@ -106,17 +104,20 @@ const Jumbotron = () => {
         setInput(prev => {
             return { ...prev, [e.target.name]: e.target.value }
         });
-        console.log(input);
     };
 
     const handleChange = (e) => {
         console.log(e.target.name)
-        setCategories({ ...categories, [e.target.name]: e.target.checked });
+        setCategories({
+            ...categories,
+            [e.target.name]: e.target.checked
+        }
+        );
     };
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        
+
         postParser();
         const db = 'http://localhost:8000/subscribe';
         const config = {
